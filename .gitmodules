@@ -1,0 +1,9 @@
+[submodule "fiber_example"]
+	path = fiber_example
+	url = git@github.com:4strodev/fiber_example
+[submodule "scaffold"]
+	path = scaffold
+	url = git@github.com:4strodev/scaffold
+[submodule "wiring"]
+	path = wiring
+	url = git@github.com:4strodev/wiring
