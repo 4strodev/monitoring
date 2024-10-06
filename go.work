@@ -1,7 +1,5 @@
 go 1.23.0
 
-use (
-	./fiber_example
-	./scaffold
-	./wiring
-)
+use ./wiring
+use ./scaffold
+use ./fiber_example

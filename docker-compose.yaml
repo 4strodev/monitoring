@@ -1,10 +1,18 @@
 ---
-version: "3"
 
 networks:
   loki:
 
 services:
+  fiber_example:
+    build: ./fiber_example
+    restart: on-failure
+    ports:
+      - 8080:8080
+    volumes:
+      - ./fiber_example/db:/app/db
+      - ./fiber_example/tmp/log:/tmp/log/fiber_example
+    
   read:
     image: grafana/loki:3.1.0
     command: "-config.file=/etc/loki/config.yaml -target=read"
@@ -49,7 +57,7 @@ services:
     image: grafana/alloy:latest
     volumes:
       - ./loki/alloy-local-config.yaml:/etc/alloy/config.alloy:ro
-      - /var/run/docker.sock:/var/run/docker.sock
+      - ./fiber_example/tmp/log/:/tmp/log/fiber_example:ro
     command:  run --server.http.listen-addr=0.0.0.0:12345 --storage.path=/var/lib/alloy/data /etc/alloy/config.alloy
     ports:
       - 12345:12345
@@ -200,12 +208,5 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    networks:
-      - loki
-  
-
-  flog:
-    image: mingrammer/flog
-    command: -f json -d 200ms -l
     networks:
       - loki
